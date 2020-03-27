@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<link rel="icon" href="favicon.png">
+<script src="https://d3js.org/d3.v5.min.js"></script>
+<script src='https://cdn.jsdelivr.net/lodash/4.17.2/lodash.min.js'></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<style>
+  html {
+    background-color: hsl(0, 0%, 100%);
+    overflow-y: scroll;
+    font-family: MetricWeb, sans-serif;
+    font-size: 62.5%
+  }
+
+  @media only screen and (max-width: 800px) {
+    html {
+      font-size: 45%;
+    }
+  }
+
+  body {
+    padding: 0;
+    margin: 0;
+  }
+
+  header.label {
+    text-align: center;
+    max-width: 85rem;
+    margin: 0 auto;
+  }
+
+  h1 {
+    font-size: 2.5rem;
+  }
+
+  .commentary {
+    line-height: 1.4;
+    margin: 0 auto;
+    font-size: 2.1rem;
+    width: 75%;
+    text-align: left;
+    margin-bottom: 5rem;
+  }
+
+  a {
+    text-decoration: none;
+    color: teal;
+    font-weight: bold;
+  }
+
+  #legend>* {
+    margin-left: 2rem;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+
+  .col1 {
+    background-color: #a50f15;
+  }
+
+  .col2 {
+    background-color: #de2d26;
+  }
+
+  .col3 {
+    background-color: #fb6a4a;
+  }
+
+  .col4 {
+    background-color: #6baed6;
+  }
+
+  .col5 {
+    background-color: #08519c;
+  }
+
+  .col6 {
+    background-color: #A8ABB0;
+  }
+
+  .color-block {
+    width: 2rem;
+    height: 2rem;
+    margin-right: 1rem;
+  }
+
+  .label {
+    font-size: 1.6rem;
+  }
+
+
+  #country-chart {
+    text-align: center;
+    font-size: 2rem;
+    opacity: 0;
+  }
+
+  #chart {
+    max-width: 700px;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  #top100 {
+    font-size: 1.5rem;
+    margin: 3rem auto;
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 60%;
+    max-width: 80rem;
+    text-align: center;
+    opacity: 0;
+  }
+
+  #top100 td,
+  #customers th {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+
+  #top100 tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+
+  #top100 th {
+    padding: 1.5rem;
+    background-color: #4CAF50;
+    color: white;
+  }
+
+  #top100 tr:hover {
+    background-color: #ddd;
+  }
+
+  #loader {
+    /* opacity: 0; */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  #loader .dot {
+    width: 12px;
+    height: 12px;
+    display: inline-block;
+    border-radius: 50%;
+    margin-right: 6px;
+    border: 2px #2b4d66 solid;
+  }
+
+  div.tooltip {
+    z-index: 3;
+    position: absolute;
+    vertical-align: center;
+    text-align: center;
+    /* 
+    width: 6rem;	
+    height: 6rem;									 
+    */
+    padding: 1rem;
+    font: 12px sans-serif;
+    background: lightsteelblue;
+    border: 0px;
+    border-radius: 8px;
+    pointer-events: none;
+  }
+
+  .footnotes {
+    margin: 6rem auto;
+    max-width: 80rem;
+    /* margin: 7rem 0rem 3rem 0rem; */
+
+  }
+
+  .footnote {
+    margin: 1rem 0rem;
+    font-size: 1.5rem;
+    line-height: 1.4;
+
+  }
+
+  .bar {
+    background: #f9423a;
+    width: 100%;
+    height: 3px;
+  }
+</style>
+
+<body>
+
+  <div id="loader">
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+  </div>
+
+  <header class='label'>
+    <h1 class='title'>Music Preference and Clustering in Europe</h1>
+
+    <p class="commentary">
+      Europe is home to 50 sovereign nations, 23 official languages and 40 bilateral borders.
+      Cultural theorists would describe the region as a melting pot, much like the United States of America. As cultures
+      and blood have mixed, Europe's music preference has become more and more homogenous. Based on <a
+        href="https://www.shazam.com/charts/" target="_blank">Shazam</a> data scraped on February 2nd of 2019, this
+      visualization shows which European countries share similar music preferences as proxied by track overlaps in their
+      respective top 100 music charts. Click on a country to see which other European countries share similar music
+      tastes.
+    </p>
+
+    <div id="legend">
+      <div class="container">
+        <div class='color-block col1'></div>
+        <div class='label'>Share at least 40 songs in Top 100 chart</div>
+      </div>
+      <div class="container">
+        <div class='color-block col2'></div>
+        <div class='label'>30 to 39 songs</div>
+      </div>
+      <div class="container">
+        <div class='color-block col3'></div>
+        <div class='label'>20 to 29 songs</div>
+      </div>
+      <div class="container">
+        <div class='color-block col4'></div>
+        <div class='label'>10 to 19 songs</div>
+      </div>
+      <div class="container">
+        <div class='color-block col5'></div>
+        <div class='label'>Share less than 10 songs</div>
+      </div>
+      <div class="container">
+        <div class='color-block col6'></div>
+        <div class='label'>No data</div>
+      </div>
+    </div>
+
+  </header>
+
+  <div id="chart"></div>
+
+  <div id="country-chart">Song Chart</div>
+  <table id="top100">
+    <tr>
+      <th>Rank</th>
+      <th>Song</th>
+      <th>Artist</th>
+    </tr>
+  </table>
+
+  <div class="footnotes">
+    <div class='bar'></div>
+    <h2>Notes</h2>
+    <p class="footnote">
+      Shazam's T-100 chart data was scraped using Selenium, an open source web testing framework available in either
+      Python, JavaScript or Java. Likeness between two music charts were calculated using fuzzy string matching.
+    </p>
+  </div>
+</body>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="js/vendor/jquery-1.11.0.min.js"><\/script>')</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.2/TweenLite.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.2/plugins/CSSPlugin.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.0.2/easing/EasePack.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.0.2/TimelineMax.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.5/ScrollMagic.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.5/plugins/animation.gsap.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.5/plugins/debug.addIndicators.min.js"></script>
+
+<script src="js/map.js"></script>
+<script src="js/loader.js"></script>
+
+</html>
