@@ -1,0 +1,180 @@
+html {
+  background-color: hsl(0, 0%, 100%);
+  overflow-y: scroll;
+  font-family: MetricWeb, sans-serif;
+  font-size: 62.5%;
+}
+
+@media only screen and (max-width: 800px) {
+  html {
+    font-size: 45%;
+  }
+}
+
+body {
+  padding: 0;
+  margin: 0;
+}
+
+header.label {
+  text-align: center;
+  max-width: 85rem;
+  margin: 0 auto;
+}
+
+h1 {
+  font-size: 2.5rem;
+}
+
+.commentary {
+  line-height: 1.4;
+  margin: 0 auto;
+  font-size: 2.1rem;
+  width: 75%;
+  text-align: left;
+  margin-bottom: 5rem;
+}
+
+a {
+  text-decoration: none;
+  color: teal;
+  font-weight: bold;
+}
+
+#legend > * {
+  margin-left: 2rem;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.col1 {
+  background-color: #a50f15;
+}
+
+.col2 {
+  background-color: #de2d26;
+}
+
+.col3 {
+  background-color: #fb6a4a;
+}
+
+.col4 {
+  background-color: #6baed6;
+}
+
+.col5 {
+  background-color: #08519c;
+}
+
+.col6 {
+  background-color: #a8abb0;
+}
+
+.color-block {
+  width: 2rem;
+  height: 2rem;
+  margin-right: 1rem;
+}
+
+.label {
+  font-size: 1.6rem;
+}
+
+#country-chart {
+  text-align: center;
+  font-size: 2rem;
+  opacity: 0;
+}
+
+#chart {
+  max-width: 700px;
+  margin: 0 auto;
+  position: relative;
+}
+
+#top100 {
+  font-size: 1.5rem;
+  margin: 3rem auto;
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 60%;
+  max-width: 80rem;
+  text-align: center;
+  opacity: 0;
+}
+
+#top100 td,
+#customers th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#top100 tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+#top100 th {
+  padding: 1.5rem;
+  background-color: #4caf50;
+  color: white;
+}
+
+#top100 tr:hover {
+  background-color: #ddd;
+}
+
+#loader {
+  /* opacity: 0; */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+#loader .dot {
+  width: 12px;
+  height: 12px;
+  display: inline-block;
+  border-radius: 50%;
+  margin-right: 6px;
+  border: 2px #2b4d66 solid;
+}
+
+div.tooltip {
+  z-index: 3;
+  position: absolute;
+  vertical-align: center;
+  text-align: center;
+  /* 
+    width: 6rem;	
+    height: 6rem;									 
+    */
+  padding: 1rem;
+  font: 12px sans-serif;
+  background: lightsteelblue;
+  border: 0px;
+  border-radius: 8px;
+  pointer-events: none;
+}
+
+.footnotes {
+  margin: 6rem auto;
+  max-width: 80rem;
+  /* margin: 7rem 0rem 3rem 0rem; */
+}
+
+.footnote {
+  margin: 1rem 0rem;
+  font-size: 1.5rem;
+  line-height: 1.4;
+}
+
+.bar {
+  background: #f9423a;
+  width: 100%;
+  height: 3px;
+}
