@@ -6,7 +6,7 @@ Europe is home to 50 sovereign nations, 23 official languages and 40 bilateral b
 
 I scraped the T-100 songs chart of each European nation and used a string matching library called [fuzzywuzzy](https://github.com/seatgeek/fuzzywuzzy) to find overlaps between each nation's musical preference. The similarity score is indicated categorically by the hue in the graph. See below:
 
-<img src="./teaser.png" height="250" />
+<img src="./teaser.png" height="400" />
 
 ## Installation
 
