@@ -1,0 +1,27 @@
+{
+  "name": "music-preferences-europe",
+  "version": "1.0.0",
+  "description": "Visualization of music preference and clustering in Europe",
+  "main": "index.js",
+  "scripts": {
+    "start": "live-server --open='./index.html'",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/icncsx/music-preferences-europe.git"
+  },
+  "author": {
+    "name": "DH Kim",
+    "email": "icncsx@gmail.com"
+  },
+  "keywords": [],
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/icncsx/music-preferences-europe/issues"
+  },
+  "homepage": "https://github.com/icncsx/music-preferences-europe#readme",
+  "devDependencies": {
+    "live-server": "^1.2.1"
+  }
+}
